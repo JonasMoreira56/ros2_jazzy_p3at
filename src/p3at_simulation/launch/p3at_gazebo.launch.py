@@ -58,6 +58,27 @@ def generate_launch_description():
         output='screen'
     )
 
+    # Spawner de uma pessoa usando modelo do Gazebo Fuel
+    person_sdf = """
+    <sdf version='1.7'>
+        <model name='pessoa1'>
+            <include>
+                <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Walking Person</uri>
+            </include>
+        </model>
+    </sdf>
+    """
+    spawn_person = Node(
+            package='ros_gz_sim',
+            executable='create',
+            arguments=[
+                    '-name', 'pessoa1',
+                    '-x', '2.0', '-y', '0.0', '-z', '0.0',
+                    '-string', person_sdf
+            ],
+            output='screen'
+    )
+
     # Ponte ROS <=> Gazebo
     start_ros_gz_bridge = Node(
         package='ros_gz_bridge',
@@ -78,5 +99,6 @@ def generate_launch_description():
         start_gazebo,
         start_robot_state_publisher,
         spawn_entity,
+        spawn_person,
         start_ros_gz_bridge
     ])
