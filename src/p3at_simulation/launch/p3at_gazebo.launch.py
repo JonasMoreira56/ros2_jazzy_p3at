@@ -1,7 +1,7 @@
 import os
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription, SetEnvironmentVariable
+from launch.actions import IncludeLaunchDescription, SetEnvironmentVariable, TimerAction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
 import xacro
@@ -79,12 +79,39 @@ def generate_launch_description():
             output='screen'
     )
 
+    # No que movimenta a pessoa aleatoriamente apos o spawn
+    start_random_person_motion = TimerAction(
+        period=4.0,
+        actions=[
+            Node(
+                package='p3at_simulation',
+                executable='random_person_motion',
+                output='screen',
+                parameters=[
+                    {'person_name': 'pessoa1'},
+                    {'motion_mode': 'set_pose'},
+                    {'cmd_vel_topic': '/model/pessoa1/cmd_vel'},
+                    {'set_pose_service': '/world/empty/set_pose'},
+                    {'update_period_sec': 0.05},
+                    {'walk_speed_m_s': 0.8},
+                    {'turn_std_dev_rad': 0.15},
+                    {'max_turn_rate_rad_s': 0.5},
+                    {'start_x': 2.0},
+                    {'start_y': 0.0},
+                    {'fixed_z': 0.0},
+                ],
+            )
+        ],
+    )
+
     # Ponte ROS <=> Gazebo
     start_ros_gz_bridge = Node(
         package='ros_gz_bridge',
         executable='parameter_bridge',
         arguments=[
             '/cmd_vel@geometry_msgs/msg/Twist]gz.msgs.Twist',
+            '/model/pessoa1/cmd_vel@geometry_msgs/msg/Twist]gz.msgs.Twist',
+            '/world/empty/set_pose@ros_gz_interfaces/srv/SetEntityPose',
             '/odom@nav_msgs/msg/Odometry[gz.msgs.Odometry',
             '/scan@sensor_msgs/msg/LaserScan[gz.msgs.LaserScan',
             '/camera/image_raw@sensor_msgs/msg/Image[gz.msgs.Image',
@@ -100,5 +127,6 @@ def generate_launch_description():
         start_robot_state_publisher,
         spawn_entity,
         spawn_person,
+        start_random_person_motion,
         start_ros_gz_bridge
     ])

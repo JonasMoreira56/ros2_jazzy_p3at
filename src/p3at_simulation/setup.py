@@ -43,6 +43,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            'random_person_motion = p3at_simulation.random_person_motion:main',
         ],
     },
 )
