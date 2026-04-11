@@ -1,6 +1,7 @@
 build/
 install/
 log/
+venv_ros2/
 **/__pycache__/
 *.pyc
 *.pyo
