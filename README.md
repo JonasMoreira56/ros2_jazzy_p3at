@@ -1,85 +1,162 @@
-# p3at_simulation
+# ros2_jazzy_p3at
 
-Guia rapido para instalar dependencias, configurar ambiente, compilar e executar a simulacao do P3AT com ROS 2 Jazzy e Gazebo Harmonic.
+Workspace ROS 2 Jazzy para simulacao do P3AT no Gazebo Harmonic, com:
 
-## 1. Requisitos
+- pacote principal `p3at_simulation` (launch, URDF/Xacro, meshes, bridge ROS <-> Gazebo)
+- nos de controle ROS2 (`teleop_keyboard`, `rotate_controller`, `speed_controller`)
+- script de validacao do ambiente Gym/ROS2 (`test_gym_p3at_ros2_updated.py`)
+
+## Requisitos
 
 - Ubuntu 24.04
-- ROS 2 Jazzy instalado em /opt/ros/jazzy
-- Workspace em /home/ubuntu24/ros2_jazzy
+- ROS 2 Jazzy instalado em `/opt/ros/jazzy`
+- Gazebo Harmonic via integracao `ros_gz`
 
-## 2. Instalacao de dependencias
+Instalacao de dependencias:
 
-Instale os pacotes necessarios para o launch atual:
+```bash
+sudo apt update
+sudo apt install -y \
+    ros-jazzy-xacro \
+    ros-jazzy-robot-state-publisher \
+    ros-jazzy-geometry-msgs \
+    ros-jazzy-nav-msgs \
+    ros-jazzy-ros-gz \
+    ros-jazzy-ros-gz-sim \
+    ros-jazzy-ros-gz-bridge \
+    ros-jazzy-ros-gz-interfaces \
+    ros-jazzy-teleop-twist-keyboard
+```
 
-    sudo apt update
-    sudo apt install -y \
-      ros-jazzy-xacro \
-      ros-jazzy-ros-gz \
-      ros-jazzy-teleop-twist-keyboard
+## Estrutura do projeto
 
-Observacao:
-- ros-jazzy-ros-gz e a integracao oficial ROS 2 Jazzy com Gazebo Harmonic.
-- Esse meta pacote inclui, entre outros, ros_gz_sim e ros_gz_bridge.
+- `src/p3at_simulation`: pacote ROS2 principal
+- `src/p3at_simulation/launch/p3at_gazebo.launch.py`: launch da simulacao
+- `src/p3at_simulation/p3at_simulation/teleop.py`: teleop por teclado (node ROS2)
+- `src/p3at_simulation/p3at_simulation/rotate_controller.py`: rotacao por angulo alvo
+- `src/p3at_simulation/p3at_simulation/speed_controller.py`: controle para objetivo `(x, y)` usando odometria
+- `test_gym_p3at_ros2_updated.py`: teste de integracao do ambiente Gym ROS2
 
-## 3. Configuracao do ambiente
+## Configuracao do ambiente
 
-Em cada novo terminal, carregue os ambientes nesta ordem:
+Na raiz do workspace (`/home/ubuntu24/ros2_jazzy_p3at`):
 
-    source /opt/ros/jazzy/setup.bash
-    source /home/ubuntu24/ros2_jazzy/install/setup.bash
+```bash
+cd /home/ubuntu24/ros2_jazzy_p3at
+source /opt/ros/jazzy/setup.bash
+source venv_ros2/bin/activate
+```
 
-Opcional para automatizar o ROS 2 base no bash:
+Depois do build, carregue tambem:
 
-    echo "source /opt/ros/jazzy/setup.bash" >> ~/.bashrc
-    source ~/.bashrc
+```bash
+source install/setup.bash
+```
 
-## 4. Compilacao do workspace
+## Build
 
-Na raiz do workspace:
+Build completo:
 
-    cd /home/ubuntu24/ros2_jazzy
-    source /opt/ros/jazzy/setup.bash
-    colcon build
-    source install/setup.bash
+```bash
+cd /home/ubuntu24/ros2_jazzy_p3at
+source /opt/ros/jazzy/setup.bash
+colcon build
+source install/setup.bash
+```
 
-Para compilar somente este pacote:
+Build apenas do pacote principal:
 
-    colcon build --packages-select p3at_simulation
+```bash
+colcon build --packages-select p3at_simulation
+source install/setup.bash
+```
 
-## 5. Executar a simulacao
+## Executar simulacao
 
-Com ambiente carregado:
+```bash
+ros2 launch p3at_simulation p3at_gazebo.launch.py
+```
 
-    ros2 launch p3at_simulation p3at_gazebo.launch.py
+Esse launch inicia:
 
+- Gazebo (`ros_gz_sim`)
+- `robot_state_publisher`
+- spawn do P3AT
+- spawn de uma pessoa no cenario
+- node `random_person_motion`
+- `ros_gz_bridge` para `/cmd_vel`, `/odom`, `/scan`, `/camera/image_raw`, `/tf`
 
-## 6. Publicacao de velocidade em /cmd_vel
+## Comandos de movimento
 
-Movimento para frente continuo a 10 Hz:
+Publicar comando de avance continuo:
 
-    ros2 topic pub /cmd_vel geometry_msgs/msg/Twist "{linear: {x: 0.3, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.0}}" -r 10
+```bash
+ros2 topic pub /cmd_vel geometry_msgs/msg/Twist \
+    "{linear: {x: 0.3, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.0}}" -r 10
+```
 
-Giro no proprio eixo a 10 Hz:
+Publicar giro:
 
-    ros2 topic pub /cmd_vel geometry_msgs/msg/Twist "{linear: {x: 0.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.6}}" -r 10
+```bash
+ros2 topic pub /cmd_vel geometry_msgs/msg/Twist \
+    "{linear: {x: 0.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.6}}" -r 10
+```
 
-Parada imediata (envio unico):
+Parar o robo:
 
-    ros2 topic pub --once /cmd_vel geometry_msgs/msg/Twist "{linear: {x: 0.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.0}}"
+```bash
+ros2 topic pub --once /cmd_vel geometry_msgs/msg/Twist \
+    "{linear: {x: 0.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.0}}"
+```
 
-Monitorar topico:
+## Controladores ROS2 incluidos
 
-    ros2 topic echo /cmd_vel
+Teleop por teclado do pacote:
 
-## 7. Controle por teclado (opcional)
+```bash
+ros2 run p3at_simulation teleop_keyboard
+```
 
-    ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=/cmd_vel
+Rotacao unica por angulo alvo:
 
-## 9. Ordem recomendada de uso no dia a dia
+```bash
+ros2 run p3at_simulation rotate_controller --ros-args \
+    -p angle_deg:=90.0 \
+    -p angular_speed_deg_s:=30.0 \
+    -p clockwise:=true
+```
 
-1. Abrir terminal
-2. source /opt/ros/jazzy/setup.bash
-3. source /home/ubuntu24/ros2_jazzy/install/setup.bash
-4. Subir simulacao com ros2 launch
-5. Publicar comandos em /cmd_vel por outro terminal com os mesmos source
+Controle para ponto alvo via odometria:
+
+```bash
+ros2 run p3at_simulation speed_controller --ros-args \
+    -p goal_x:=3.0 \
+    -p goal_y:=3.0 \
+    -p linear_speed_m_s:=0.5 \
+    -p angular_speed_rad_s:=0.3
+```
+
+## Teste do ambiente Gym ROS2
+
+Com ambiente Python ativo:
+
+```bash
+python test_gym_p3at_ros2_updated.py
+```
+
+Esse script valida registro do ambiente `p3at-v2-ros2`, imports, dependencias e artefatos esperados.
+
+## Boas praticas de versionamento
+
+- nao versionar ambientes virtuais (`venv_ros2/`)
+- nao versionar artefatos de build (`build/`, `install/`, `log/`)
+
+## Fluxo recomendado (resumo)
+
+1. Abrir terminal na raiz do workspace.
+2. `source /opt/ros/jazzy/setup.bash`
+3. `source venv_ros2/bin/activate`
+4. `colcon build` (quando houver mudancas)
+5. `source install/setup.bash`
+6. `ros2 launch p3at_simulation p3at_gazebo.launch.py`
+7. Em outro terminal com os mesmos `source`, executar controle/teleop.
