@@ -8,6 +8,8 @@
   <license>TODO: License declaration</license>
 
   <depend>rclpy</depend>
+  <depend>geometry_msgs</depend>
+  <depend>nav_msgs</depend>
   
   <!-- LINHAS ADICIONADAS - ESSENCIAL PARA GAZEBO E XACRO -->
   <exec_depend>ros_gz_sim</exec_depend>

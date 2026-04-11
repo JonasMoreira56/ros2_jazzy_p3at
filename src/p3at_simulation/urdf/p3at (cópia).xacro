@@ -14,9 +14,9 @@
   <xacro:property name="axel_offset" value="0.05" /> <!-- Space btw top of beam and the each joint -->
 
   <!-- Import all Gazebo-customization elements, including Gazebo colors -->
-  <xacro:include filename="$(find p3at_description)/urdf/p3at.gazebo" />
+  <xacro:include filename="$(find p3at_simulation)/urdf/p3at.gazebo" />
   <!-- Import Rviz colors -->
-  <xacro:include filename="$(find p3at_description)/urdf/materials.xacro" />
+  <xacro:include filename="$(find p3at_simulation)/urdf/materials.xacro" />
 
   <!-- Used for fixing robot to Gazebo 'base_link' -->
   <!--link name="world"/-->
@@ -34,7 +34,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0.177"/>
       <geometry name="pioneer_geom">
-        <mesh filename="package://amr_robots_description/meshes/p3at_meshes/chassis.stl"/>
+        <mesh filename="package://p3at_simulation/meshes/p3at_meshes/chassis.stl"/>
       </geometry>
       <material name="ChassisRed">
         <color rgba="0.851 0.0 0.0 1.0"/>
@@ -43,7 +43,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0.177"/>
       <geometry>
-        <mesh filename="package://amr_robots_description/meshes/p3at_meshes/chassis.stl"/>
+        <mesh filename="package://p3at_simulation/meshes/p3at_meshes/chassis.stl"/>
       </geometry>
     </collision>
   </link>
@@ -60,7 +60,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry name="pioneer_geom">
-        <mesh filename="package://amr_robots_description/meshes/p3at_meshes/top.stl"/>
+        <mesh filename="package://p3at_simulation/meshes/p3at_meshes/top.stl"/>
       </geometry>
       <material name="TopBlack">
         <color rgba="0.038 0.038 0.038 1.0"/>
@@ -85,7 +85,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry name="pioneer_geom">
-        <mesh filename="package://amr_robots_description/meshes/p3at_meshes/front_sonar.stl"/>
+        <mesh filename="package://p3at_simulation/meshes/p3at_meshes/front_sonar.stl"/>
       </geometry>
       <material name="SonarYellow">
         <color rgba="0.715 0.583 0.210 1.0"/>
@@ -109,7 +109,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry name="pioneer_geom">
-        <mesh filename="package://amr_robots_description/meshes/p3at_meshes/back_sonar.stl"/>
+        <mesh filename="package://p3at_simulation/meshes/p3at_meshes/back_sonar.stl"/>
       </geometry>
       <material name="SonarYellow">
         <color rgba="0.715 0.583 0.210 1.0"/>
@@ -134,7 +134,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry name="pioneer_geom">
-        <mesh filename="package://amr_robots_description/meshes/p3at_meshes/axle.stl"/>
+        <mesh filename="package://p3at_simulation/meshes/p3at_meshes/axle.stl"/>
       </geometry>
       <material name="AxleGrey">
         <color rgba="0.5 0.5 0.5 1"/>
@@ -158,7 +158,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry name="pioneer_geom">
-        <mesh filename="package://amr_robots_description/meshes/p3at_meshes/left_hubcap.stl"/>
+        <mesh filename="package://p3at_simulation/meshes/p3at_meshes/left_hubcap.stl"/>
       </geometry>
       <material name="HubcapYellow">
         <color rgba="1.0 0.811 0.151 1.0"/>
@@ -183,7 +183,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry name="pioneer_geom">
-        <mesh filename="package://amr_robots_description/meshes/p3at_meshes/wheel.stl"/>
+        <mesh filename="package://p3at_simulation/meshes/p3at_meshes/wheel.stl"/>
       </geometry>
       <material name="WheelBlack">
         <color rgba="0.117 0.117 0.117 1"/>
@@ -192,7 +192,7 @@
     <collision>
       <origin rpy="-1.57079635 0 0" xyz="0 0 0"/>
       <geometry>
-        <!--mesh filename="package://amr_robots_description/meshes/p3at_meshes/wheel.stl"/-->
+        <!--mesh filename="package://p3at_simulation/meshes/p3at_meshes/wheel.stl"/-->
         <cylinder length="0.075" radius="0.111"/>
       </geometry>
     </collision>
@@ -219,7 +219,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry name="pioneer_geom">
-        <mesh filename="package://amr_robots_description/meshes/p3at_meshes/axle.stl"/>
+        <mesh filename="package://p3at_simulation/meshes/p3at_meshes/axle.stl"/>
       </geometry>
       <material name="AxleGrey">
         <color rgba="0.5 0.5 0.5 1"/>
@@ -228,7 +228,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://amr_robots_description/meshes/p3at_meshes/axle.stl"/>
+        <mesh filename="package://p3at_simulation/meshes/p3at_meshes/axle.stl"/>
       </geometry>
     </collision>
   </link>
@@ -249,14 +249,14 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry name="pioneer_geom">
-        <mesh filename="package://amr_robots_description/meshes/p3at_meshes/left_hubcap.stl"/>
+        <mesh filename="package://p3at_simulation/meshes/p3at_meshes/left_hubcap.stl"/>
       </geometry>
       <material name="HubcapYellow"/>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://amr_robots_description/meshes/p3at_meshes/left_hubcap.stl"/>
+        <mesh filename="package://p3at_simulation/meshes/p3at_meshes/left_hubcap.stl"/>
       </geometry>
     </collision>
   </link>
@@ -277,14 +277,14 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry name="pioneer_geom">
-        <mesh filename="package://amr_robots_description/meshes/p3at_meshes/wheel.stl"/>
+        <mesh filename="package://p3at_simulation/meshes/p3at_meshes/wheel.stl"/>
       </geometry>
       <material name="WheelBlack"/>
     </visual>
     <collision>
       <origin rpy="-1.57079635 0 0" xyz="0 0 0"/>
       <geometry>
-        <!--mesh filename="package://amr_robots_description/meshes/p3at_meshes/wheel.stl"/-->
+        <!--mesh filename="package://p3at_simulation/meshes/p3at_meshes/wheel.stl"/-->
         <cylinder length="0.075" radius="0.111"/>
       </geometry>
     </collision>
@@ -312,7 +312,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry name="pioneer_geom">
-        <mesh filename="package://amr_robots_description/meshes/p3at_meshes/axle.stl"/>
+        <mesh filename="package://p3at_simulation/meshes/p3at_meshes/axle.stl"/>
       </geometry>
       <material name="AxleGrey">
         <color rgba="0.5 0.5 0.5 1"/>
@@ -336,7 +336,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry name="pioneer_geom">
-        <mesh filename="package://amr_robots_description/meshes/p3at_meshes/right_hubcap.stl"/>
+        <mesh filename="package://p3at_simulation/meshes/p3at_meshes/right_hubcap.stl"/>
       </geometry>
       <material name="HubcapYellow">
         <color rgba="1.0 0.811 0.151 1.0"/>
@@ -361,7 +361,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry name="pioneer_geom">
-        <mesh filename="package://amr_robots_description/meshes/p3at_meshes/wheel.stl"/>
+        <mesh filename="package://p3at_simulation/meshes/p3at_meshes/wheel.stl"/>
       </geometry>
       <material name="WheelBlack">
         <color rgba="0.117 0.117 0.117 1"/>
@@ -370,7 +370,7 @@
     <collision>
       <origin rpy="-1.57079635 0 0" xyz="0 0 0"/>
       <geometry>
-        <!--mesh filename="package://amr_robots_description/meshes/p3at_meshes/wheel.stl"/-->
+        <!--mesh filename="package://p3at_simulation/meshes/p3at_meshes/wheel.stl"/-->
         <cylinder length="0.075" radius="0.111"/>
       </geometry>
     </collision>
@@ -397,7 +397,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry name="pioneer_geom">
-        <mesh filename="package://amr_robots_description/meshes/p3at_meshes/axle.stl"/>
+        <mesh filename="package://p3at_simulation/meshes/p3at_meshes/axle.stl"/>
       </geometry>
       <material name="AxleGrey">
         <color rgba="0.5 0.5 0.5 1"/>
@@ -406,7 +406,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://amr_robots_description/meshes/p3at_meshes/axle.stl"/>
+        <mesh filename="package://p3at_simulation/meshes/p3at_meshes/axle.stl"/>
       </geometry>
     </collision>
   </link>
@@ -427,14 +427,14 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry name="pioneer_geom">
-        <mesh filename="package://amr_robots_description/meshes/p3at_meshes/right_hubcap.stl"/>
+        <mesh filename="package://p3at_simulation/meshes/p3at_meshes/right_hubcap.stl"/>
       </geometry>
       <material name="HubcapYellow"/>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://amr_robots_description/meshes/p3at_meshes/right_hubcap.stl"/>
+        <mesh filename="package://p3at_simulation/meshes/p3at_meshes/right_hubcap.stl"/>
       </geometry>
     </collision>
   </link>
@@ -455,14 +455,14 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry name="pioneer_geom">
-        <mesh filename="package://amr_robots_description/meshes/p3at_meshes/wheel.stl"/>
+        <mesh filename="package://p3at_simulation/meshes/p3at_meshes/wheel.stl"/>
       </geometry>
       <material name="WheelBlack"/>
     </visual>
     <collision>
       <origin rpy="-1.57079635 0 0" xyz="0 0 0"/>
       <geometry>
-        <!--mesh filename="package://amr_robots_description/meshes/p3at_meshes/wheel.stl"/-->
+        <!--mesh filename="package://p3at_simulation/meshes/p3at_meshes/wheel.stl"/-->
         <cylinder length="0.075" radius="0.111"/>
       </geometry>
     </collision>
@@ -493,7 +493,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://p3at_description/meshes/hokuyo.dae"/>
+        <mesh filename="package://p3at_simulation/meshes/hokuyo.dae"/>
       </geometry>
     </visual>
 
@@ -515,7 +515,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://p3at_description/meshes/base_laser.dae"/>
+        <mesh filename="package://p3at_simulation/meshes/base_laser.dae"/>
       </geometry>
     </visual>
 
@@ -597,7 +597,7 @@
     <visual>
       <geometry>
         <!--cylinder length="0.01" radius="0.02"/-->
-	<mesh filename="package://p3at_description/meshes/base_cam.dae"/>
+	<mesh filename="package://p3at_simulation/meshes/base_cam.dae"/>
       </geometry>
       <material name="red"/>
     </visual>
@@ -617,7 +617,7 @@
     <visual>
       <geometry>
         <!--box size="0.02 0.02 0.02"/-->
-	<mesh filename="package://p3at_description/meshes/pan_cam.dae"/>
+	<mesh filename="package://p3at_simulation/meshes/pan_cam.dae"/>
       </geometry>
       <material name="green"/>
     </visual>
@@ -637,7 +637,7 @@
     <visual>
       <geometry>
         <!--box size="0.02 0.02 0.02"/-->
-	<mesh filename="package://p3at_description/meshes/tilt_cam.dae"/>
+	<mesh filename="package://p3at_simulation/meshes/tilt_cam.dae"/>
       </geometry>
       <material name="ChassisRed">
         <color rgba="0.851 0.0 0.0 1.0"/>
