@@ -81,7 +81,7 @@ def generate_launch_description():
 
     # No que movimenta a pessoa aleatoriamente apos o spawn
     start_random_person_motion = TimerAction(
-        period=4.0,
+        period=1.0,
         actions=[
             Node(
                 package='p3at_simulation',
@@ -89,10 +89,10 @@ def generate_launch_description():
                 output='screen',
                 parameters=[
                     {'person_name': 'pessoa1'},
-                    {'motion_mode': 'set_pose'},
+                    {'motion_mode': 'cmd_vel'},
                     {'cmd_vel_topic': '/model/pessoa1/cmd_vel'},
                     {'set_pose_service': '/world/empty/set_pose'},
-                    {'update_period_sec': 0.05},
+                    {'update_period_sec': 0.03},
                     {'walk_speed_m_s': 0.8},
                     {'turn_std_dev_rad': 0.15},
                     {'max_turn_rate_rad_s': 0.5},
