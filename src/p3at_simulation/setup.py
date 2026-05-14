@@ -44,9 +44,11 @@ setup(
     entry_points={
         'console_scripts': [
             'random_person_motion = p3at_simulation.random_person_motion:main',
+            'random_robot_motion = p3at_simulation.random_robot_motion:main',
             'teleop_keyboard = p3at_simulation.teleop:main',
             'rotate_controller = p3at_simulation.rotate_controller:main',
             'speed_controller = p3at_simulation.speed_controller:main',
+            'yolov8_person_detector = p3at_simulation.yolov8_person_detector:main',
         ],
     },
 )

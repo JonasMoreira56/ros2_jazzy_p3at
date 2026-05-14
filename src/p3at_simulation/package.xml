@@ -10,6 +10,9 @@
   <depend>rclpy</depend>
   <depend>geometry_msgs</depend>
   <depend>nav_msgs</depend>
+  <depend>sensor_msgs</depend>
+  <depend>std_msgs</depend>
+  <depend>cv_bridge</depend>
   
   <!-- LINHAS ADICIONADAS - ESSENCIAL PARA GAZEBO E XACRO -->
   <exec_depend>ros_gz_sim</exec_depend>

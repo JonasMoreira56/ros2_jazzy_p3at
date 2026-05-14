@@ -73,7 +73,7 @@ def generate_launch_description():
             executable='create',
             arguments=[
                     '-name', 'pessoa1',
-                    '-x', '2.0', '-y', '0.0', '-z', '0.0',
+                    '-x', '0.0', '-y', '-3.5', '-z', '0.0',
                     '-string', person_sdf
             ],
             output='screen'
@@ -89,16 +89,54 @@ def generate_launch_description():
                 output='screen',
                 parameters=[
                     {'person_name': 'pessoa1'},
-                    {'motion_mode': 'cmd_vel'},
+                    {'motion_mode': 'set_pose'},
                     {'cmd_vel_topic': '/model/pessoa1/cmd_vel'},
                     {'set_pose_service': '/world/empty/set_pose'},
-                    {'update_period_sec': 0.03},
+                    {'update_period_sec': 0.05},
                     {'walk_speed_m_s': 0.8},
                     {'turn_std_dev_rad': 0.15},
                     {'max_turn_rate_rad_s': 0.5},
-                    {'start_x': 2.0},
-                    {'start_y': 0.0},
+                    {'start_x': 0.0},
+                    {'start_y': -3.5},
                     {'fixed_z': 0.0},
+                ],
+            )
+        ],
+    )
+
+    start_random_robot_motion = TimerAction(
+        period=2.0,
+        actions=[
+            Node(
+                package='p3at_simulation',
+                executable='random_robot_motion',
+                output='screen',
+                parameters=[
+                    {'cmd_vel_topic': '/cmd_vel'},
+                    {'linear_speed_m_s': 0.5},
+                    {'angular_speed_rad_s': 0.3},
+                    {'update_period_sec': 1.0},
+                    {'motion_duration_sec': 10.0},
+                ],
+            )
+        ],
+    )
+
+    start_yolov8_person_detector = TimerAction(
+        period=3.0,
+        actions=[
+            Node(
+                package='p3at_simulation',
+                executable='yolov8_person_detector',
+                output='screen',
+                parameters=[
+                    {'image_topic': '/camera/image_raw'},
+                    {'annotated_image_topic': '/detections/image'},
+                    {'detection_topic': '/detections/people'},
+                    {'model_path': 'yolov8n.pt'},
+                    {'confidence': 0.35},
+                    {'device': 'cpu'},
+                    {'target_class_name': 'person'},
                 ],
             )
         ],
@@ -128,5 +166,7 @@ def generate_launch_description():
         spawn_entity,
         spawn_person,
         start_random_person_motion,
+        start_random_robot_motion,
+        start_yolov8_person_detector,
         start_ros_gz_bridge
     ])
